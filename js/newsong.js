@@ -7,6 +7,13 @@
         render(data) {
             $(this.el).html(this.template)
         },
+        deactive(){
+            $(this.el).removeClass('active')
+        },
+        active(){
+            $(this.el).addClass('active')
+        }
+        
         
     }
     let model = {}
@@ -14,18 +21,23 @@
         init(view, model) {
             this.view = view
             this.model = model
-            this.view.render(this.model.data)
-            window.eventHub.on('upload',()=>{
-                this.active()
-            })
-            
-            }
-
-
-        ,
+            this.view.render(this.model.data)  
+            this.bindEventHub()
+        },
         active(){
             $(this.view.el).addClass('active')
+        },
+        bindEventHub(){
+            window.eventHub.on('upload', () => {
+                this.view.active()
+            })
+            window.eventHub.on('select-song',()=>{
+                
+                this.view.deactive()
+            })
+
         }
+        
 
 
     }

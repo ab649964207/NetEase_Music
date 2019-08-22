@@ -25,7 +25,7 @@
                 domain: 'pwin7pfn5.bkt.clouddn.com',   //bucket 域名，下载资源时用到，**必需**
                 get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
                 container: this.view.find('#uploadArea'),           //上传区域DOM ID，默认是browser_button的父元素，
-                max_file_size: '10mb',           //最大文件体积限制 
+                max_file_size: '100mb',           //最大文件体积限制 
                 max_retries: 3,                   //上传失败最大重试次数
                 dragdrop: true,                   //开启可拖曳上传
                 drop_element: this.view.find('#uploadArea'),        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
@@ -48,15 +48,14 @@
                     'FileUploaded': function (up, file, info) {
                        
                         var domain = up.getOption('domain');
-                        var response = JSON.parse(info.response);
-                        var sourceLink = 'http://'+domain +encodeURIComponent(response.key)
+                        var response = JSON.parse(info.response)
+                        var sourceLink = 'http://'+domain +'/'+response.key
                         var filename = file.name
                         var data = {
-                            link: sourceLink,
-                            key: response.key,
-                            filename: filename
+                            url: sourceLink,
+                            name: response.key,
+                            name: filename
                         }
-                        console.log(data);
                         
                         
                         window.eventHub.emit('upload',data)
